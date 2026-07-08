@@ -1,0 +1,6 @@
+# Ignore all compiled executable files
+*.exe
+
+# Ignore common debug folders and build artifacts
+*.o
+*.obj
