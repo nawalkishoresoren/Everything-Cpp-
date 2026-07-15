@@ -1,6 +1,6 @@
 class MyHashSet {
 public:
-    vector<int>hash_set;
+    vector<bool>hash_set;
     MyHashSet() {
         hash_set.resize(1000001,false);
     }
