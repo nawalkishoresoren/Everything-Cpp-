@@ -1,26 +1,24 @@
 class MyHashSet {
 public:
-    unordered_map<int,int>umap;
+    vector<int>hash_set;
     MyHashSet() {
-        
+        hash_set.resize(1000001,false);
     }
     
     void add(int key) {
-        umap[key]++;
+        hash_set[key] = true;
         
     }
     
     void remove(int key) 
     {
-        umap.erase(key);
+        hash_set[key] = false;
         
     }
     
     bool contains(int key) 
     {
-        if(umap.find(key)==umap.end())
-            return false;
-        return true;
+        return hash_set[key];
     }
 };
 
