@@ -4,6 +4,7 @@ public:
     {
         vector<vector<string>>ans;
         unordered_map<string,vector<string>>umap;
+
         for(auto str:strs)
         {
             auto temp = str;
@@ -15,6 +16,5 @@ public:
             ans.push_back(list.second);
         }
         return ans;
-
     }
 };
