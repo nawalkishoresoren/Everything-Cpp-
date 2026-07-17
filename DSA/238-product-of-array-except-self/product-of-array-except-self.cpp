@@ -2,21 +2,17 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) 
     {
-        vector<int>prefix_mul(nums.size(),1);
-        vector<int>suffix_mul(nums.size(),1);
         vector<int>ans(nums.size(),1);
+        int suffix_mul =1;
 
         for(int i=1;i<nums.size();i++)
         {
-            prefix_mul[i] = prefix_mul[i-1] * nums[i-1];
+            ans[i] = ans[i-1] * nums[i-1];
         }
-        for(int i=nums.size()-2;i>=0;i--)
+        for(int i=nums.size()-1;i>=0;i--)
         {
-            suffix_mul[i] = suffix_mul[i+1] * nums[i+1];
-        }
-        for(int i=0;i<nums.size();i++)
-        {
-            ans[i] = prefix_mul[i] * suffix_mul[i];
+            ans[i] = suffix_mul * ans[i];
+            suffix_mul = suffix_mul * nums[i];
         }
         return ans;
     }
