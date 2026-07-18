@@ -165,6 +165,96 @@ public:
     }
 };
 ```
+
+## Contiguous Array
+🔗 LeetCode: https://leetcode.com/problems/contiguous-array/description/
+```cpp
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) 
+    {
+        unordered_map<int,int>umap;
+        umap[0] = -1;
+        int sum = 0, max_arr = 0;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==1)
+                sum += 1;
+            else
+                sum -= 1;
+
+            if(umap.find(sum) == umap.end())
+                umap[sum] = i;
+            else
+                max_arr = max(max_arr,i - umap[sum]);
+        }
+        return max_arr;
+    }
+};
+```
+
+## Subarray Sums Divisible by K
+🔗 LeetCode: https://leetcode.com/problems/subarray-sums-divisible-by-k/description/
+```cpp
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) 
+    {
+        unordered_map<int,int>umap;
+        umap[0]++; 
+        int sum = 0, count = 0, remainder = 0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum += nums[i];
+            remainder = sum % k;
+            if(remainder<0)
+                remainder += k;
+            
+            count += umap[remainder];
+            umap[remainder]++;
+        }
+        return count;
+    }
+};
+```
+
+## Valid Sudoku
+🔗 LeetCode: https://leetcode.com/problems/valid-sudoku/description/
+```cpp
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) 
+    {
+        unordered_set<char>rows[9];
+        unordered_set<char>columns[9];
+        unordered_set<char>grids[9];
+
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[0].size();j++)
+            {
+                if(board[i][j] == '.')
+                    continue;
+                else{
+                    int grid_no = (i/3)*3 + (j/3);
+
+                    if(rows[i].find(board[i][j]) != rows[i].end())
+                        return false;
+                    if(columns[j].find(board[i][j]) != columns[j].end())
+                        return false;
+                    if(grids[grid_no].find(board[i][j]) != grids[grid_no].end())
+                        return false;
+
+                    rows[i].insert(board[i][j]);
+                    columns[j].insert(board[i][j]);
+                    grids[grid_no].insert(board[i][j]);
+                }
+            }
+        }
+        return true;
+    }
+};
+```
 ---
 
 # Sliding Window
@@ -271,6 +361,125 @@ public:
             right++;
         }
         return max_fruits;
+    }
+};
+```
+
+## Longest Repeating Character Replacement
+🔗 LeetCode: https://leetcode.com/problems/longest-repeating-character-replacement/description/
+```cpp
+class Solution {
+public:
+    int characterReplacement(string s, int k) 
+    {
+        int left = 0, right = 0;
+        int char_freq[256] = {0};
+        int res = 0, maxf = 0;
+        while(right<s.size())
+        {
+            char_freq[s[right] - 'A']++;
+            maxf = max(maxf,char_freq[s[right] - 'A']);
+            while ((right - left + 1) - maxf > k)
+            {
+                char_freq[s[left] - 'A']--;
+                left++;
+            }
+            res = max(res,right-left+1);
+            right++;
+        }
+        return res;
+    }
+};
+```
+
+## Minimum Size Subarray Sum
+🔗 LeetCode: https://leetcode.com/problems/minimum-size-subarray-sum/description/
+```cpp
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) 
+    {
+        int left = 0, right = 0, sum = 0;
+        int res = INT_MAX;
+
+        while(right<nums.size())
+        {
+            sum += nums[right];
+
+            while(sum>=target)
+            {
+                res = min(res, right - left + 1);
+
+                sum -= nums[left];
+                left++;
+            }
+            right++;
+
+        }
+        return res == INT_MAX ? 0 : res;
+        
+    }
+};
+```
+
+## Max Consecutive Ones III
+🔗 LeetCode: https://leetcode.com/problems/max-consecutive-ones-iii/description/
+```cpp
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) 
+    {
+        int left = 0, zeros = 0, ans = 0, res = 0;
+
+        for(int right = 0;right<nums.size();right++)
+        {
+            if(nums[right]==0)
+                zeros++;
+            
+            while(zeros > k)
+            {
+                if(nums[left]==0)
+                    zeros--;
+                left++;
+            }
+            res = max(res,right-left+1);
+        }
+        return res;
+    }
+};
+```
+
+## Permutation in String
+🔗 LeetCode: https://leetcode.com/problems/permutation-in-string/description/
+```cpp
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) 
+    {
+        vector<int>freq1(26,0);
+        vector<int>freq2(26,0);
+
+        for(auto c: s1)
+        {
+            freq1[c-'a']++;
+        }
+        
+        int left = 0;
+        for(int right =0;right<s2.size();right++)
+        {
+            freq2[s2[right]-'a']++;
+
+            if(right-left+1 > s1.size())
+            {
+                freq2[s2[left]-'a']--;
+                left++;
+            }
+            if(right-left+1 == s1.size())
+                if(freq1==freq2)
+                    return true;
+                
+        }
+        return false;
     }
 };
 ```
@@ -432,6 +641,32 @@ public:
                 i++;
             }
         }
+    }
+};
+```
+
+## Two Sum II - Input Array Is Sorted
+🔗 LeetCode: https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        int left = 0, right = nums.size()-1;
+
+        while(left<right)
+        {
+            int sum = nums[left] + nums[right];
+
+            if(sum == target)
+                return {left+1,right+1};
+            else if(sum<target)
+                left++;
+            else
+                right--;
+        }
+        return {-1,-1};
     }
 };
 ```
