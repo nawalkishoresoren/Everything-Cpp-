@@ -8,24 +8,15 @@ public:
         for(int i=0;i<nums.size();i++)
         {
             if(nums[i]==1)
-            {
                 sum += 1;
-            }
             else
-            {
                 sum -= 1;
-            }
 
             if(umap.find(sum) == umap.end())
-            {
                 umap[sum] = i;
-            }
             else
-            {
                 max_arr = max(max_arr,i - umap[sum]);
-            }
         }
         return max_arr;
-
     }
 };
