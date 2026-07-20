@@ -11,20 +11,22 @@
  */
 class Solution {
 public:
-    bool check_valid(TreeNode* root, TreeNode* left, TreeNode* right)
+    bool check(TreeNode* root, TreeNode* left, TreeNode* right)
     {
         if(root == nullptr)
             return true;
 
-        if(left!=nullptr and left->val>=root->val)
+        if(left!=nullptr and left->val >= root->val)
             return false;
-        if(right!=nullptr and right->val<=root->val)
+        
+        if(right!=nullptr and root->val >= right->val)
             return false;
 
-        return check_valid(root->left,left,root) and check_valid(root->right,root,right);
+
+        return check(root->left,left,root) and check(root->right,root,right);
     }
     bool isValidBST(TreeNode* root) 
     {
-        return check_valid(root,nullptr,nullptr);
+        return check(root,nullptr,nullptr);
     }
 };
