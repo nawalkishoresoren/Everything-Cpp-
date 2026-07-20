@@ -2,15 +2,16 @@ class Solution {
 public:
     int dx[4] = {0,1,0,-1};
     int dy[4] = {1,0,-1,0};
-    bool isvalid(int nx, int ny, vector<vector<char>>& grid)
+    bool isvalid(int x, int y, vector<vector<char>>& grid)
     {
-        if(nx>=0 and nx<grid.size() and ny>=0 and ny<grid[0].size() and grid[nx][ny]=='1')
+        if(x>=0 and x<grid.size() and y>=0 and y<grid[0].size() and grid[x][y] == '1')
             return true;
         return false;
     }
     void dfs(int x, int y, vector<vector<char>>& grid)
     {
-        grid[x][y]=0;
+        grid[x][y] = '0';
+
         for(int i=0;i<4;i++)
         {
             int nx = x + dx[i];
@@ -34,7 +35,6 @@ public:
                     dfs(i,j,grid);
                     count++;
                 }
-                    
             }
         }
         return count;
