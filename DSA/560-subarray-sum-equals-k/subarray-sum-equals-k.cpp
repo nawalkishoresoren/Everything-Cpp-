@@ -3,21 +3,25 @@ public:
     int subarraySum(vector<int>& nums, int k) 
     {
         unordered_map<int,int>umap;
-        umap[0] = 1;
+        umap[0]++;
 
-        int prefix_sum = 0;
-        int count = 0;
+        int prefix_sum = 0, result = 0;
 
-        for(auto num:nums)
+        for(int i = 0; i<nums.size(); i++)
         {
-            prefix_sum+=num;
-
-            if(umap.find(prefix_sum-k) != umap.end())
+            prefix_sum += nums[i];
+            
+            if(umap.find(prefix_sum - k) == umap.end())
             {
-                count += umap[prefix_sum-k];
+                umap[prefix_sum]++;
             }
-            umap[prefix_sum]++;
+            else
+            {
+                result += umap[prefix_sum - k] * 1;
+                umap[prefix_sum]++;
+            }
+
         }
-        return count;
+        return result;
     }
 };
